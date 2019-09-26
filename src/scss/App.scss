@@ -84,6 +84,9 @@ html {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          &:hover {
+            background: #00e79426;
+          }
 
           img {
             width: 55px;

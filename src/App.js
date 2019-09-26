@@ -14,7 +14,10 @@ export default class App extends Component {
     resultCount: 0
   };
 
-  delayedSearch = debounce(this.getSearch, 500);
+  minQueryLength = 4;
+  debounceTime = 300;
+
+  delayedSearch = debounce(this.getSearch, this.debounceTime);
   async getSearch() {
     // get data
     let response = await GameTimeAPI(this.state.query);
@@ -23,16 +26,8 @@ export default class App extends Component {
     // Format data
     response = ParseSearch(response);
 
-    // get result count
-    let count = 0;
-
-    // keep track of results count
-    this.state.results.forEach(item => {
-      count += item.length;
-    });
-
     // Update state
-    this.setState({ results: response, resultCount: count });
+    this.setState({ results: response });
   }
 
   setSearch = async e => {
@@ -41,8 +36,8 @@ export default class App extends Component {
       query: e.target.value
     });
 
-    // reset if less than 3 characters
-    if (e.target.value.length < 4) {
+    // reset if less than 4 characters
+    if (e.target.value.length < this.minQueryLength) {
       this.setState({ results: new Map(), count: 0 });
       return;
     }
@@ -52,6 +47,14 @@ export default class App extends Component {
   };
 
   render() {
+    // get result count
+    let resultCount = 0;
+
+    // keep track of results count
+    this.state.results.forEach(item => {
+      resultCount += item.length;
+    });
+
     return (
       <div className="gametime-main">
         <div className="search-container">
@@ -62,9 +65,8 @@ export default class App extends Component {
               onSearch={this.setSearch}
               ref={this.searchBoxInput}
             />
-            {this.state.query.length > 2 && (
-              <SearchResults results={this.state.results} />
-            )}
+            {this.state.query.length >= this.minQueryLength &&
+              resultCount > 0 && <SearchResults results={this.state.results} />}
           </div>
         </div>
       </div>

@@ -1,3 +1,6 @@
+// Handles predetermined event types and the paths to needed variables
+// Not properly set up for error handling if something undefined
+// _.get(item, path, default) could be used
 const parseType = (type, item) => {
   switch (type) {
     case "events":
@@ -26,16 +29,19 @@ const parseType = (type, item) => {
   }
 };
 
+// Build map of responses using only first 3 items from each type of event
 export const ParseSearch = response => {
   let results = new Map();
 
   if (response) {
+    // Loop over response types
     Object.keys(response).forEach(type => {
+      // Add type to map
       results.set(
         type,
-        response[type]
-          .slice(0, 3)
-          .map(item => parseType.apply(null, [type, item]))
+        // For each response parse using pre-designed type object
+        // only handle the first 3 items in response (assuming they're in order from more recent to least)
+        response[type].slice(0, 3).map(item => parseType(type, item))
       );
     });
   }
@@ -47,6 +53,9 @@ export const ParseSearch = response => {
         events: [],
         performers: [], 
         venues: []
+        .
+        .music?
+        .art?
     }
 
 */

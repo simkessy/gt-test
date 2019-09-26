@@ -7,7 +7,7 @@ export default function SearchResults(props) {
 
   results.forEach(item => (data = [...data, ...item]));
 
-  if (data.length === 0) return <div className="no-results">No Results</div>;
+  // if (data.length === 0) return <div className="no-results">No Results</div>;
 
   return (
     <div className="search-results">
