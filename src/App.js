@@ -4,30 +4,41 @@ import logo from "./assets/logo.svg";
 import { GameTimeAPI } from "./api/GameTimeApi";
 import SearchBox from "./components/Search";
 import SearchResults from "./components/Results";
-import ParseSearch from "./helpers/parseSearch";
+import { ParseSearch } from "./helpers/parseSearch";
 import debounce from "lodash/debounce";
+
 export default class App extends Component {
   state = {
     query: "",
-    results: []
+    results: new Map(),
+    resultCount: 0
   };
 
-  delayedSearch = debounce(async q => {
-    return await GameTimeAPI(q);
-  }, 500);
+  // delayedSearch = debounce(async q => {
+  //   return await GameTimeAPI(q);
+  // }, 500);
 
   onSearch = async e => {
     // get query results
     // set await because setState is async, otherwise our delayed search get's called before we're done typing all letters
     await this.setState({ query: e.target.value });
+
     // get data
-    let response = await this.delayedSearch(this.state.query);
-    // let response = await GameTimeAPI(this.state.query);
+    // let response = await this.delayedSearch(this.state.query);
+    let response = await GameTimeAPI(this.state.query);
 
     // Format data
     response = ParseSearch(response);
+
+    // get result count
+    let count = 0;
+
+    this.state.results.forEach(item => {
+      count += item.length;
+    });
+
     // Update state
-    this.setState({ results: response });
+    this.setState({ results: response, resultCount: count });
   };
 
   render() {
