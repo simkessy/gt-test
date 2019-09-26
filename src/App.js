@@ -7,27 +7,24 @@ import SearchResults from "./components/Results";
 import ParseSearch from "./helpers/parseSearch";
 import debounce from "lodash/debounce";
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.onSearch = this.onSearch.bind(this);
-  }
-
   state = {
     query: "",
     results: []
   };
 
-  delayedSearch = debounce(GameTimeAPI, 300);
-  async onSearch(e) {
+  delayedSearch = debounce(GameTimeAPI, 500);
+
+  onSearch = async e => {
     // get query results
-    this.setState({ query: e.target.value });
+    // set await because setState is async, otherwise our delayed search get's called before we're done typing all letters
+    await this.setState({ query: e.target.value });
 
     // get data
     let response = await this.delayedSearch(this.state.query);
-    // let response = await GameTimeAPI(this.state.query);
+
     console.log("response:", response);
     this.setState({ results: ParseSearch(response) });
-  }
+  };
 
   render() {
     return (
