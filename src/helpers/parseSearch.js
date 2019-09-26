@@ -1,8 +1,7 @@
 export default response => {
-  //   let results = {
-  //     events: [...response.events.slice(0, 3).map(item => {})],
-  //     performers: [],
-  //     venues: []
-  //   };
-  //   return results;
+  window.x = response;
+  console.log("response:", response);
+  let results = {};
+
+  return results;
 };

@@ -12,7 +12,9 @@ export default class App extends Component {
     results: []
   };
 
-  delayedSearch = debounce(GameTimeAPI, 500);
+  delayedSearch = debounce(async q => {
+    return await GameTimeAPI(q);
+  }, 500);
 
   onSearch = async e => {
     // get query results
@@ -20,6 +22,8 @@ export default class App extends Component {
     await this.setState({ query: e.target.value });
     // get data
     let response = await this.delayedSearch(this.state.query);
+    // let response = await GameTimeAPI(this.state.query);
+
     // Format data
     response = ParseSearch(response);
     // Update state
