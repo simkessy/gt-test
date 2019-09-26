@@ -1,3 +1,3 @@
 # Find on Netlify
 
-https://github.com/simkessy/gt-test
+https://gt-search.netlify.com/
