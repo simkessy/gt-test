@@ -14,18 +14,11 @@ export default class App extends Component {
     resultCount: 0
   };
 
-  // delayedSearch = debounce(async q => {
-  //   return await GameTimeAPI(q);
-  // }, 500);
-
-  onSearch = async e => {
-    // get query results
-    // set await because setState is async, otherwise our delayed search get's called before we're done typing all letters
-    await this.setState({ query: e.target.value });
-
+  delayedSearch = debounce(this.getSearch, 500);
+  async getSearch() {
     // get data
-    // let response = await this.delayedSearch(this.state.query);
     let response = await GameTimeAPI(this.state.query);
+    // let response = await GameTimeAPI(this.state.query);
 
     // Format data
     response = ParseSearch(response);
@@ -33,24 +26,47 @@ export default class App extends Component {
     // get result count
     let count = 0;
 
+    // keep track of results count
     this.state.results.forEach(item => {
       count += item.length;
     });
 
     // Update state
     this.setState({ results: response, resultCount: count });
+  }
+
+  setSearch = async e => {
+    // Set search
+    this.setState({
+      query: e.target.value
+    });
+
+    // reset if less than 3 characters
+    if (e.target.value.length < 4) {
+      this.setState({ results: new Map(), count: 0 });
+      return;
+    }
+
+    // if greater than 3 characters, execute search
+    this.delayedSearch(this.state.query);
   };
 
   render() {
     return (
       <div className="gametime-main">
-        <img alt="GameTime Logo" src={logo} />
-        <SearchBox
-          value={this.state.query}
-          onSearch={this.onSearch}
-          ref={this.searchBoxInput}
-        />
-        <SearchResults results={this.state.results} />
+        <div className="search-container">
+          <img className="logo" alt="GameTime Logo" src={logo} />
+          <div className="search">
+            <SearchBox
+              value={this.state.query}
+              onSearch={this.setSearch}
+              ref={this.searchBoxInput}
+            />
+            {this.state.query.length > 2 && (
+              <SearchResults results={this.state.results} />
+            )}
+          </div>
+        </div>
       </div>
     );
   }
