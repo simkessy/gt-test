@@ -1,22 +1,116 @@
-.App {
-  text-align: center;
-}
+html {
+  box-sizing: border-box;
+  overflow-y: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 
-.App-logo {
-  height: 40vmin;
-}
+  .gametime-main {
+    // width: 50vw;
+    height: 90vh;
+    margin: 0 auto;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+    .search-container {
+      justify-content: center;
+      align-items: center;
+      width: 60vw;
+      height: 500px;
+      margin-top: 150px;
 
-.App-link {
-  color: #09d3ac;
+      .logo {
+        height: 50px;
+        margin-bottom: 40px;
+      }
+
+      .no-results {
+        margin-top: 20px;
+        font-size: 30px;
+        color: lightgreen;
+        font-weight: bold;
+      }
+
+      .search-box {
+        border: 2px solid lightgray;
+        border-radius: 55px;
+        padding: 8px;
+
+        .search-icon {
+          padding: 5px;
+          width: 30px;
+          height: 30px;
+          float: left;
+        }
+
+        .search-input {
+          font-size: 20px;
+          border: none;
+          width: 85%;
+          height: 30px;
+          padding: 5px;
+          text-decoration: none;
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+
+      .search-results {
+        // border: 2px solid lightgreen;
+        max-height: 50vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        border: 1px solid lightgray;
+        padding: 10px;
+        margin: 0 auto;
+        width: 85%;
+
+        .item-text-container {
+          padding: 8px;
+        }
+
+        .search-item {
+          height: 60px;
+          width: 100%;
+          text-align: left;
+          display: flex;
+          padding: 5px;
+          width: 98%;
+          cursor: pointer;
+          grid-template-columns: 10% auto;
+          border-bottom: 1px solid lightgray;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          img {
+            width: 55px;
+            height: 55px;
+            padding: 5px;
+          }
+
+          .item-title {
+            margin: 0;
+            padding: 5px;
+            color: black;
+          }
+
+          .item-subtitle {
+            margin: 0;
+            padding: 5px;
+            padding-top: 0px;
+            color: darkgrey;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .search-container {
+        width: 85vw;
+      }
+    }
+  }
 }
