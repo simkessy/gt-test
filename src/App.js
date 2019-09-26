@@ -18,12 +18,12 @@ export default class App extends Component {
     // get query results
     // set await because setState is async, otherwise our delayed search get's called before we're done typing all letters
     await this.setState({ query: e.target.value });
-
     // get data
     let response = await this.delayedSearch(this.state.query);
-
-    console.log("response:", response);
-    this.setState({ results: ParseSearch(response) });
+    // Format data
+    response = ParseSearch(response);
+    // Update state
+    this.setState({ results: response });
   };
 
   render() {
